@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import BeforeAfter from './BeforeAfter';
 import { orientalEducation } from '../data/educationContent';
 
-const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, apiResult, onReset }) => {
+const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, aiSelectedArtist, onReset }) => {
   const [showInfo, setShowInfo] = useState(true);
   const [educationText, setEducationText] = useState('');
   const [isLoadingEducation, setIsLoadingEducation] = useState(true);
@@ -67,8 +67,8 @@ const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, apiResult, on
     
     // 한국 - DB artwork의 style 필드로 매칭
     if (styleId === 'korean') {
-      // apiResult에서 선택된 artwork의 style 정보 가져오기
-      const artworkStyle = apiResult?.selection_details?.style || '';
+      // aiSelectedArtist에서 선택된 artwork의 style 정보 가져오기
+      const artworkStyle = aiSelectedArtist?.selection_details?.style || '';
       
       console.log('Korean artwork style:', artworkStyle);
       
@@ -89,9 +89,9 @@ const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, apiResult, on
     
     // 중국 - AI 선택 결과에 따라 수묵화/공필화
     if (styleId === 'chinese') {
-      // apiResult에서 선택된 artwork의 style 정보 가져오기
-      const artworkStyle = apiResult?.selection_details?.style || '';
-      const artworkPrompt = apiResult?.selection_details?.prompt || '';
+      // aiSelectedArtist에서 선택된 artwork의 style 정보 가져오기
+      const artworkStyle = aiSelectedArtist?.selection_details?.style || '';
+      const artworkPrompt = aiSelectedArtist?.selection_details?.prompt || '';
       
       console.log('Chinese artwork style:', artworkStyle);
       

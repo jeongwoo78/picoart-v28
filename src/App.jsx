@@ -26,9 +26,9 @@ const App = () => {
   };
 
   // Handler: Processing complete
-  const handleProcessingComplete = (style, resultImageUrl, result) => {
+  const handleProcessingComplete = (style, resultImageUrl, aiSelectedArtist) => {
     setResultImage(resultImageUrl);
-    setApiResult(result); // API 결과 저장
+    setApiResult(aiSelectedArtist); // AI 선택 작가 정보 저장
     setCurrentScreen('result');
   };
 
@@ -77,7 +77,7 @@ const App = () => {
             originalPhoto={uploadedPhoto}
             resultImage={resultImage}
             selectedStyle={selectedStyle}
-            apiResult={apiResult}
+            aiSelectedArtist={apiResult}
             onReset={handleReset}
           />
         )}
