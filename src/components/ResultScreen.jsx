@@ -5,6 +5,12 @@ import BeforeAfter from './BeforeAfter';
 import { orientalEducation } from '../data/educationContent';
 
 const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, aiSelectedArtist, onReset }) => {
+  console.log('=== ResultScreen Render ===');
+  console.log('originalPhoto:', originalPhoto ? 'exists' : 'null');
+  console.log('resultImage:', resultImage);
+  console.log('selectedStyle:', selectedStyle);
+  console.log('aiSelectedArtist:', aiSelectedArtist);
+  
   const [showInfo, setShowInfo] = useState(true);
   const [educationText, setEducationText] = useState('');
   const [isLoadingEducation, setIsLoadingEducation] = useState(true);

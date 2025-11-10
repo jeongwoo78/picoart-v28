@@ -27,9 +27,16 @@ const App = () => {
 
   // Handler: Processing complete
   const handleProcessingComplete = (style, resultImageUrl, aiSelectedArtist) => {
+    console.log('=== Processing Complete ===');
+    console.log('style:', style);
+    console.log('resultImageUrl:', resultImageUrl);
+    console.log('aiSelectedArtist:', aiSelectedArtist);
+    
     setResultImage(resultImageUrl);
     setApiResult(aiSelectedArtist); // AI 선택 작가 정보 저장
     setCurrentScreen('result');
+    
+    console.log('currentScreen set to:', 'result');
   };
 
   // Handler: Reset to start
@@ -56,6 +63,11 @@ const App = () => {
 
       {/* Main Content */}
       <main className="app-main">
+        {(() => {
+          console.log('Current Screen:', currentScreen);
+          return null;
+        })()}
+        
         {currentScreen === 'upload' && (
           <UploadScreen onUpload={handlePhotoUpload} />
         )}
