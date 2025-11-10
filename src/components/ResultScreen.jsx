@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import BeforeAfter from './BeforeAfter';
 import { orientalEducation } from '../data/educationContent';
 
-const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, aiSelectedArtist, onReset }) => {
+const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, apiResult, onReset }) => {
   const [showInfo, setShowInfo] = useState(true);
   const [educationText, setEducationText] = useState('');
   const [isLoadingEducation, setIsLoadingEducation] = useState(true);
@@ -65,20 +65,46 @@ const ResultScreen = ({ originalPhoto, resultImage, selectedStyle, aiSelectedArt
   const getOrientalEducation = () => {
     const styleId = selectedStyle.id;
     
-    // 한국 - 민화 (고정)
+    // 한국 - DB artwork의 style 필드로 매칭
     if (styleId === 'korean') {
-      return orientalEducation.korean.description;
+      // apiResult에서 선택된 artwork의 style 정보 가져오기
+      const artworkStyle = apiResult?.selection_details?.style || '';
+      
+      console.log('Korean artwork style:', artworkStyle);
+      
+      // style 필드 기반 매칭
+      if (artworkStyle.includes('folk')) {
+        return orientalEducation.korean_minhwa.description;
+      } else if (artworkStyle.includes('genre')) {
+        return orientalEducation.korean_pungsokdo.description;
+      } else if (artworkStyle.includes('true-view') || artworkStyle.includes('landscape')) {
+        return orientalEducation.korean_jingyeong.description;
+      } else if (artworkStyle.includes('ink') || artworkStyle.includes('animal') || artworkStyle.includes('flower bird')) {
+        return orientalEducation.korean_ink.description;
+      }
+      
+      // Fallback: 민화
+      return orientalEducation.korean_minhwa.description;
     }
     
     // 중국 - AI 선택 결과에 따라 수묵화/공필화
     if (styleId === 'chinese') {
-      // aiSelectedArtist에서 스타일 판단
-      const artist = aiSelectedArtist?.toLowerCase() || '';
+      // apiResult에서 선택된 artwork의 style 정보 가져오기
+      const artworkStyle = apiResult?.selection_details?.style || '';
+      const artworkPrompt = apiResult?.selection_details?.prompt || '';
       
-      if (artist.includes('gongbi') || artist.includes('공필')) {
+      console.log('Chinese artwork style:', artworkStyle);
+      
+      // gongbi 여부 판단 (style 또는 prompt에서)
+      if (artworkStyle.includes('gongbi') || 
+          artworkStyle.includes('figure') || 
+          artworkStyle.includes('beauty') ||
+          artworkStyle.includes('bird and flower') ||
+          artworkStyle.includes('blue-green landscape') ||
+          artworkPrompt.toLowerCase().includes('gongbi')) {
         return orientalEducation.chinese_gongbi.description;
       } else {
-        // 기본은 수묵화
+        // 수묵화 (ink wash, ink plum, ink bamboo, ink horse 등)
         return orientalEducation.chinese_ink.description;
       }
     }

@@ -11,6 +11,7 @@ const App = () => {
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
   const [selectedStyle, setSelectedStyle] = useState(null);
   const [resultImage, setResultImage] = useState(null);
+  const [apiResult, setApiResult] = useState(null); // API 결과 저장
 
   // Handler: Photo uploaded
   const handlePhotoUpload = (photoFile) => {
@@ -25,8 +26,9 @@ const App = () => {
   };
 
   // Handler: Processing complete
-  const handleProcessingComplete = (style, resultImageUrl) => {
+  const handleProcessingComplete = (style, resultImageUrl, result) => {
     setResultImage(resultImageUrl);
+    setApiResult(result); // API 결과 저장
     setCurrentScreen('result');
   };
 
@@ -36,6 +38,7 @@ const App = () => {
     setUploadedPhoto(null);
     setSelectedStyle(null);
     setResultImage(null);
+    setApiResult(null);
   };
 
   return (
@@ -74,6 +77,7 @@ const App = () => {
             originalPhoto={uploadedPhoto}
             resultImage={resultImage}
             selectedStyle={selectedStyle}
+            apiResult={apiResult}
             onReset={handleReset}
           />
         )}
